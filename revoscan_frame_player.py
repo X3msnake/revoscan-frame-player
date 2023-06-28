@@ -1,6 +1,3 @@
-# If you are running this code from the command line don't forget to install the following libraries:
-# pip install opencv-python numpy
-
 import os
 import cv2
 import tkinter as tk
@@ -50,7 +47,7 @@ def play_image_sequence():
     # Initialize video writer
     output_file = None
     output_width, output_height = None, None
-    fps = 30.0
+    fps = 24.0
 
     while cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE) >= 1:
         # Load the current frame
@@ -95,6 +92,7 @@ def play_image_sequence():
             current_frame += 10
 
         # Export to video if Shift+E is pressed
+        # Export to video if Shift+E is pressed
         if key == ord('E'):
             output_file = filedialog.asksaveasfilename(
                 initialdir="./",
@@ -103,6 +101,12 @@ def play_image_sequence():
             )
 
             if output_file:
+                # Check if the output file has an extension
+                _, file_extension = os.path.splitext(output_file)
+                if not file_extension:
+                    # Append a default extension, such as ".mp4"
+                    output_file += ".mp4"
+
                 output_width, output_height = frame.shape[1], frame.shape[0]
                 fourcc = cv2.VideoWriter_fourcc(*"mp4v")
                 output_video = cv2.VideoWriter(output_file, fourcc, fps, (output_width, output_height))
