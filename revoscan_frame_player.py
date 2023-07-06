@@ -9,6 +9,7 @@ print("\n\t ....................................................................
 print("\n\t Welcome to Revoscan frame player, to navigate use the following keys: ")
 print("")
 print("\n\t ESC: quit")
+print("\n\t x: mark frame for deletion")
 print("")
 print("\n\t Shift+E: export as video")
 print("\n\t Shift+X: export as RGB jpg sequence")
@@ -86,6 +87,28 @@ def play_image_sequence():
             progress_bar.update()
 
         print("\n\tFrames exported successfully.")
+        
+    def draw_filename(frame, filename, x_pressed):
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        position = (10, 30)
+        font_scale = 1
+        font_color = (255, 255, 255)
+        thickness = 2
+        cv2.putText(frame, filename, position, font, font_scale, font_color, thickness, cv2.LINE_AA)
+
+        if x_pressed:
+            frame_height, frame_width = frame.shape[:2]
+            line_color = (0, 0, 255)  # Red color
+            line_thickness = 2
+
+            # Draw the first diagonal line of the X
+            cv2.line(frame, (0, 0), (frame_width, frame_height), line_color, line_thickness)
+
+            # Draw the second diagonal line of the X
+            cv2.line(frame, (frame_width, 0), (0, frame_height), line_color, line_thickness)
+        
+    x_pressed = [False] * len(image_files)
+
 
     while cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE) >= 1:
         # Load the current frame
@@ -94,6 +117,9 @@ def play_image_sequence():
 
         # Convert BGR to RGB
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        
+        # Draw the filename and X overlay on the frame
+        draw_filename(frame_rgb, image_files[current_frame], x_pressed[current_frame])
 
         # Display the current frame
         cv2.imshow(window_name, frame_rgb)
@@ -103,6 +129,10 @@ def play_image_sequence():
 
         # Wait for user input
         key = cv2.waitKey(1)
+        
+        # Check if 'x' is pressed
+        if key == ord('x'):
+            x_pressed[current_frame] = not x_pressed[current_frame]
 
         # Play/Pause controls
         if key == ord(' ') or key == ord('5'):
