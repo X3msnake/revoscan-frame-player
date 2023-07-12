@@ -1,6 +1,8 @@
 # Revoscan Flayer (Frame Player)
 Tool to play the captured images on the cached folders of Revopoint Revostudio 5+ 
 
+Revoscan Flayer in action: https://youtu.be/S3iMp--z-Ks
+Helpers video, use case: https://youtu.be/mUwcQSsyZ44
 
 ----
 
@@ -32,4 +34,6 @@ Tool to play the captured images on the cached folders of Revopoint Revostudio 5
 Note (230712): some scripts might work better if ran from the cache folder you want to inspect
 
 ```
+
+
 
