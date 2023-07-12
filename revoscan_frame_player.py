@@ -3,7 +3,6 @@ import cv2
 import tkinter as tk
 from tkinter import filedialog
 import numpy as np
-import shutil
 
 print("\n\t ..................................................................... ")
 print("\n\t Welcome to Revoscan frame player, to navigate use the following keys: ")
