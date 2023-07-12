@@ -1,8 +1,10 @@
+dphfilepath = "frame_000_0338.dph"
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 # Read the raw file
-with open('frame_000_0338.dph', 'rb') as f:
+with open(dphfilepath, 'rb') as f:
     raw_image = np.fromfile(f, dtype=np.uint16)
 
 # Set the width and height of the image
