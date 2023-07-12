@@ -1,10 +1,15 @@
+dphfilepath = "frame_000_0338.dph"
+
+# Image byte size checker
 import numpy as np
 import matplotlib.pyplot as plt
 
-img = np.fromfile("frame_000_0338.dph", dtype=np.uint16)
+img = np.fromfile(dphfilepath, dtype=np.uint16)
 print (img.size) #check your image size, say 1048576
 #shape it accordingly, that is, 1048576=1024*1024
 
+
+# Revoscan DPH file decoder
 import numpy as np
 import cv2
 
@@ -12,7 +17,7 @@ width = 640
 height = 400
 
 # Read the raw file
-with open('frame_000_0338.dph', 'rb') as f:
+with open(dphfilepath, 'rb') as f:
     raw_image = np.fromfile(f, dtype=np.uint16)
 
 # Reshape the raw image array to the specified width and height
