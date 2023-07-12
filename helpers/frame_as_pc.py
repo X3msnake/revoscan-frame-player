@@ -1,7 +1,29 @@
-dphfilepath = "frame_000_0338.dph"
+#################################################
 
+ # Helper assumes the python code is in the same
+ # cache folder as the dph you are trying to 
+ # export/view, if your file is in another folder
+ # you need to give the full path
+ 
+ # Export will always be to the same folder 
+ # where the python is being run from
+
+dphfilepath = "frame_000_0000.dph"
+
+ # For full path use / as the following example
+ # "D:/_sandbox/cache/frame_000_0000.dph"
+
+#################################################
+
+import os
 import numpy as np
 import matplotlib.pyplot as plt
+
+# Function to get filename from path
+def get_file_name(file_path):
+    file_path_components = file_path.split('/')
+    file_name_and_extension = file_path_components[-1].rsplit('.', 1)
+    return file_name_and_extension[0]
 
 # Read the raw file
 with open(dphfilepath, 'rb') as f:
@@ -54,10 +76,10 @@ ax.set_zlabel('Intensity (Scaled)')
 ax.set_title('Inverted DPH Point Cloud with Scaled Z-axis')
 
 # Save the point cloud as an ASCII file
-output_file = 'point_cloud.txt'
+output_file = get_file_name(dphfilepath)+'.txt'
 point_cloud = np.column_stack((x, y, scaled_z, z))
 np.savetxt(output_file, point_cloud, fmt='%.6f', delimiter=' ')
-print("Pointcloud saved as point_cloud.txt")
+print("Pointcloud saved as "+output_file)
 
 # Display the plot
 plt.show()
