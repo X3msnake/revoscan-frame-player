@@ -1,4 +1,16 @@
-dphfilepath = "frame_000_0338.dph"
+#################################################
+
+ # Helper assumes the python code is in the same
+ # cache folder as the dph you are trying to 
+ # export/view, if your file is in another folder
+ # you need to give the full path
+ 
+ # Export will always be to the same folder 
+ # where the python is being run from
+
+dphfilepath = "frame_000_0000.dph"
+
+#################################################
 
 # Image byte size checker
 import numpy as np
