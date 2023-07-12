@@ -48,7 +48,7 @@ def play_image_sequence():
     # Create an OpenCV window
     window_name = 'Revoscan FramePlay'
     cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-    cv2.resizeWindow(window_name, 800, 600)
+    cv2.resizeWindow(window_name, 905, 566) # Original BGR is 1280x800
 
     current_frame = 0
     is_playing = False
