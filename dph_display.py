@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-img = np.fromfile("frame_000_0800.dph", dtype=np.uint16)
+img = np.fromfile("frame_000_0338.dph", dtype=np.uint16)
 print (img.size) #check your image size, say 1048576
 #shape it accordingly, that is, 1048576=1024*1024
 
