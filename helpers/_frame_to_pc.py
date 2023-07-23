@@ -7,7 +7,7 @@ def get_file_name(file_path):
     return os.path.splitext(os.path.basename(file_path))[0]
 
 # Read the raw file
-dphfilepath = "frame_000_0332.dph"
+dphfilepath = "frame_000_0350.dph"
 with open(dphfilepath, 'rb') as f:
     raw_image = np.fromfile(f, dtype=np.uint16)
 
