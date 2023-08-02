@@ -1,3 +1,8 @@
+# Code by: GPT-CHAT
+# Prompting: X3msnake
+# https://chat.openai.com/share/99b0cea6-53be-43c0-bf8d-7741d92a5db2
+# https://chat.openai.com/share/406c317a-766f-46a2-89b4-5df2a5cee4ab
+
 import tkinter as tk
 from tkinter import filedialog
 import json
