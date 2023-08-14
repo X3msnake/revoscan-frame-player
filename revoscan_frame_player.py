@@ -47,7 +47,7 @@ def play_image_sequence():
     # Create an OpenCV window
     window_name = 'Revoscan FramePlay'
     cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-    cv2.resizeWindow(window_name, 905, 566) # Original BGR is 1280x800
+    cv2.resizeWindow(window_name, 1280, 800) # Original BGR is 1280x800
 
     current_frame = 0
     is_playing = False
@@ -107,6 +107,16 @@ def play_image_sequence():
             cv2.line(frame, (frame_width, 0), (0, frame_height), line_color, line_thickness)
         
     x_pressed = [False] * len(image_files)
+    
+    # Load the x.files if it exists
+    x_files_path = os.path.join(folder_path, 'x.files')
+    if os.path.exists(x_files_path):
+        with open(x_files_path, 'r') as x_files:
+            for line in x_files:
+                filename = line.strip()
+                index = image_files.index(filename + '.img')  # Convert filename to full filename with extension
+                if 0 <= index < len(x_pressed):
+                    x_pressed[index] = True
 
 
     while cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE) >= 1:
@@ -132,6 +142,12 @@ def play_image_sequence():
         # Check if 'x' is pressed
         if key == ord('x'):
             x_pressed[current_frame] = not x_pressed[current_frame]
+
+            # Update x.files
+            with open(x_files_path, 'w') as x_files:
+                for filename, x_status in zip(image_files, x_pressed):
+                    if x_status:
+                        x_files.write(filename[:-4] + '\n')  # Remove .img extension and write filename
 
         # Play/Pause controls
         if key == ord(' ') or key == ord('5'):
