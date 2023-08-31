@@ -17,12 +17,11 @@ print("\n\t                                                                     
 print("\n\t   ESC: exits the script                                                        ")
 print("\n\t                                                                                ")
 print("\n\t - This script loops trough the dph files in the same folder as this py.        ")
-print("\n\t - Video is being saved while you see the it run and is output to dph_output.mp4")
-print("\n\t - File will be in the same folder as this script                               ")
+print("\n\t - Video is being saved while you see it run and is output to dph_output.mp4    ")
+print("\n\t - The file will be in the same folder as this script                           ")
 print("\n\t..............................................................................\n")
 
-
-# Define width and height
+# Define width and height for the output video frames
 width = 640
 height = 400
 
@@ -41,24 +40,42 @@ while True:
         raw_image = raw_image.reshape(height, width)
 
         # Normalize the raw image to the range [0, 65535]
-        normalized_image = (raw_image / np.max(raw_image)) * 65535
+        normalized_image = (raw_image / np.max(raw_image) * (65535/256)).astype(np.uint16)
 
-        # Convert the normalized image to 8-bit uint
-        uint8_image = np.uint8(normalized_image)
+        # Split the normalized grayscale values into red and green channels
+        red_channel = (normalized_image / 2).astype(np.uint8)  # Divide by 2 for red channel
+        green_channel = (normalized_image).astype(np.uint8)  # Green channel as complement
 
-        # Create a custom colormap (Rainbow)
-        custom_colormap = cv2.applyColorMap(np.arange(256, dtype=np.uint8), cv2.COLORMAP_TWILIGHT)
+        # Flip the green channel values
+        green_channel = 255 - green_channel
+        green_channel[green_channel == 255] = 0  # Replace 255 with 0
 
-        # Apply the custom colormap to the image
-        colormap_image = cv2.applyColorMap(uint8_image, custom_colormap)
+        # Normalize the normalized_image array to the range [0, 255]
+        normalized_image_8bit = (normalized_image / np.max(normalized_image) * 255).astype(np.uint8)
 
-        # Display the colored image
-        cv2.namedWindow('Custom Colormap Image', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Custom Colormap Image', width, height)
-        cv2.imshow('Custom Colormap Image', colormap_image)
+        # Apply histogram equalization to the normalized image for the blue channel
+        equalized_blue = cv2.equalizeHist(normalized_image_8bit)
 
+        # Convert the equalized blue channel back to the range [0, 65535]
+        blue_channel = (equalized_blue * 255).astype(np.uint8)
+        flipped_blue_channel = 255 - blue_channel
+        
+        # Create an empty RGB image
+        rgb_image = np.zeros((height, width, 3), dtype=np.uint8)
+
+        # Assign red, green, and blue channels to the RGB image
+        rgb_image[:,:,0] = red_channel
+        rgb_image[:,:,1] = green_channel
+        rgb_image[:,:,2] = blue_channel
+
+        # Show separate grayscale windows for each channel
+        #cv2.imshow('Red Channel', red_channel)
+        #cv2.imshow('Green Channel', green_channel)
+        #cv2.imshow('Blue Channel', equalized_blue)
+        cv2.imshow('RGB Image', rgb_image)
+        
         # Write the current frame to the output video
-        output_video.write(colormap_image)
+        output_video.write(rgb_image)
 
         # Wait for a short duration (e.g., 100 milliseconds)
         key = cv2.waitKey(100)
@@ -74,4 +91,3 @@ while True:
 # Release the VideoWriter and close OpenCV windows
 output_video.release()
 cv2.destroyAllWindows()
-
