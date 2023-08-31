@@ -17,6 +17,7 @@ if not dph_files:
 print("\n\t................................................................................")
 print("\n\t                                                                                ")
 print("\n\t   ESC: exits the script                                                        ")
+print("\n\t     r: rotates the stream                                                      ")
 print("\n\t                                                                                ")
 print("\n\t - This script loops trough the dph files in the same folder as this py.        ")
 print("\n\t - Video is being saved while you see it run and is output to dph_output.mp4    ")
@@ -46,6 +47,9 @@ print(f" \t   Raw depth capture: {width}x{height}")
 # Create a VideoWriter object to save the output video
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 output_video = cv2.VideoWriter('dph_output.mp4', fourcc, 10, (width, height))
+
+# Initialize a rotation flag
+rotate_flag = False
 
 # Loop to play the "movie" indefinitely
 while True:
@@ -90,7 +94,12 @@ while True:
         #cv2.imshow('Red Channel', red_channel)
         #cv2.imshow('Green Channel', green_channel)
         #cv2.imshow('Blue Channel', equalized_blue)
-        cv2.imshow('RGB Image', rgb_image)
+        
+        if rotate_flag:
+            rotated_image = cv2.rotate(rgb_image, cv2.ROTATE_90_CLOCKWISE)
+            cv2.imshow('RGB Image', rotated_image)
+        else:
+            cv2.imshow('RGB Image', rgb_image)
         
         # Write the current frame to the output video
         output_video.write(rgb_image)
@@ -101,6 +110,10 @@ while True:
         # Exit the loop if ESC key is pressed
         if key == 27:
             break
+        
+        # Rotate the image if the 'r' key is pressed
+        if key == ord('r'):
+            rotate_flag = not rotate_flag  # Toggle the rotation flag
 
     # Exit the loop if ESC key is pressed
     if key == 27:
