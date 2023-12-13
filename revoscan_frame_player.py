@@ -1,23 +1,10 @@
 import os
 import cv2
+import sys
 import tkinter as tk
 from tkinter import filedialog
 import numpy as np
 
-print("\n\t ..................................................................... ")
-print("\n\t Welcome to Revoscan frame player, to navigate use the following keys: ")
-print("")
-print("\n\t ESC: quit")
-print("\n\t x: mark frame for deletion")
-print("")
-print("\n\t Shift+E: export as video")
-print("\n\t Shift+X: export as RGB jpg sequence")
-print("\n\t Shift+O: open new cache folder")
-print("")
-print("\n\t Space or Numpad 5: play/stop")
-print("\n\t Numpad 4/6: back / forward 1 frame")
-print("\n\t Numpad 7/9: back / forward 10 frame")
-print("\n\t..................................................................... \n")
 
 class ProgressBar:
     def __init__(self, total_frames, progress_bar_width):
@@ -32,6 +19,25 @@ class ProgressBar:
         print(f'\r\tExporting Frames: {progress_bar} {self.current_frame}/{self.total_frames}', end='')
 
 def play_image_sequence():
+    
+    # Clear the console
+    os.system('cls' if os.name == 'nt' else 'clear')
+    
+    print("\n\t ..................................................................... ")
+    print("\n\t Welcome to Revoscan frame player, to navigate use the following keys: ")
+    print("")
+    print("\n\t ESC: quit")
+    print("\n\t x: mark frame for deletion")
+    print("")
+    print("\n\t Shift+E: export as video")
+    print("\n\t Shift+X: export as RGB jpg sequence")
+    print("\n\t Shift+O: open new cache folder")
+    print("")
+    print("\n\t Space or Numpad 5: play/stop")
+    print("\n\t Numpad 4/6: back / forward 1 frame")
+    print("\n\t Numpad 7/9: back / forward 10 frame")
+    print("\n\t..................................................................... \n")
+    
     # Prompt the user to select a folder
     root = tk.Tk()
     root.withdraw()
@@ -41,8 +47,11 @@ def play_image_sequence():
     image_files = sorted([file for file in os.listdir(folder_path) if file.endswith('.img')])
 
     if not image_files:
-        print('No image files found in the folder.')
-        return
+        print('\t\t No image files found in the folder.')
+        input("\t\t Press Enter to try again...")
+        play_image_sequence()
+        
+
 
     # Create an OpenCV window
     window_name = 'Revoscan FramePlay'
@@ -68,7 +77,8 @@ def play_image_sequence():
     def export_frames_to_folder(folder_path):
         export_folder = filedialog.askdirectory(title="Select export folder")
         if not export_folder:
-            return
+            print('Export folder does not exist')
+            input("Press Enter to exit...")
 
         progress_bar = ProgressBar(len(image_files), 50)
 
@@ -227,6 +237,11 @@ def play_image_sequence():
 
     # Close the OpenCV window
     cv2.destroyAllWindows()
-
-# Example usage
-play_image_sequence()
+    
+#Run code
+try:
+    play_image_sequence()
+    
+except Exception as e:
+    print(f"An error occurred: {e}")
+    input("Press Enter to exit...")
