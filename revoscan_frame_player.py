@@ -90,7 +90,8 @@ def play_image_sequence():
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
             # Export frame as JPEG
-            output_path = os.path.join(export_folder, f'frame_{i+1:04d}.jpg')
+            file_name, file_extension = os.path.splitext(img_file)
+            output_path = os.path.join(export_folder, f'{file_name}.jpg')
             cv2.imwrite(output_path, frame_rgb)
 
             progress_bar.update()
