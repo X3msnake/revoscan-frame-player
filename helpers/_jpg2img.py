@@ -49,11 +49,11 @@ def convert_jpg_to_img():
             img_bgr = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
             # Write to IMG file
-            img_output_path = os.path.join(output_folder, f'frame_{i+1:04d}.jpg')
+            img_output_path = os.path.join(output_folder, f'{os.path.splitext(jpg_file)[0]}.jpg')
             cv2.imwrite(img_output_path, img_bgr)
 
             # Rename file to have .img extension
-            img_new_output_path = os.path.join(output_folder, f'frame_{i+1:04d}.img')
+            img_new_output_path = os.path.join(output_folder, f'{os.path.splitext(jpg_file)[0]}.img')
             shutil.move(img_output_path, img_new_output_path)
 
             # Update progress bar
@@ -70,4 +70,3 @@ def convert_jpg_to_img():
 # Example usage
 if __name__ == "__main__":
     convert_jpg_to_img()
-
