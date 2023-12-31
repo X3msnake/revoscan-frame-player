@@ -1,6 +1,12 @@
+import sys
 import os
 import cv2
 import shutil
+
+# Set the working directory to the script's folder
+script_folder = os.path.dirname(sys.argv[0])
+os.chdir(script_folder)
+# print (script_folder)
 
 class NoJPGFilesError(Exception):
     pass
@@ -20,7 +26,8 @@ class ProgressBar:
 def convert_jpg_to_img():
     try:
         # Get the script's root folder
-        script_folder = os.path.dirname(os.path.abspath(__file__))
+        script_folder = os.path.dirname(sys.argv[0])
+        print ("\n\tCurrent JPG folder: " + script_folder + "\n")
 
         # Specify the input folder (folder containing JPG files)
         input_folder = script_folder
