@@ -1,4 +1,4 @@
-# Revoscan Flayer (Frame Player)
+# Revoscan FP (Frame Player)
 Tool to play the captured images on the cached folders of Revopoint Revostudio 5+ 
 
 - Revoscan Flayer in action: https://youtu.be/S3iMp--z-Ks
